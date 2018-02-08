@@ -59,6 +59,7 @@ function pack(...)
 end
 
 function love.load()
+	fade=0
 	require("config")
 	require("class")
 	require("events")
@@ -115,6 +116,13 @@ end
 
 function love.update(dt)
 	--called every frame
+	if fade>0 then
+		fade=fade-4 --FADE RATE
+	end
+
+	if fade<0 then
+		fade=0
+	end
 
 
 
@@ -207,7 +215,7 @@ function love.draw()
   	 	 			love.graphics.rectangle("fill", posX+1, posY+1, config.plots.pxlength-2, config.plots.pxlength-2)
     				love.graphics.setColor(unpack(config.colors.white))
 	    			love.graphics.print(num,posX+5,posY+5)
-	    			love.graphics.printf("SHADOW",posX+1,posY-6+0.5*(config.plots.pxlength),config.plots.pxlength-2,"center")
+	    			love.graphics.printf(finance.appraise(),posX+1,posY-6+0.5*(config.plots.pxlength),config.plots.pxlength-2,"center")
   		  		end
   		  		--debugText(num,classData[tiles[num].class].displayName)
   		  		num=num+1
@@ -284,7 +292,12 @@ function love.draw()
 	debugText("CURSORPOS","("..(love.mouse.getX())..","..(love.mouse.getY())..")")
 	debugText("MOUSESPEED",mouseSpeed)
 	debugText(({love.system.getPowerInfo()})[1],({love.system.getPowerInfo()})[3])
+	debugText("YAMS",player.yams)
     --*******DEBUG********--
+
+
+    love.graphics.setColor(config.colors.blood[1],config.colors.blood[2],config.colors.blood[3],fade)
+    love.graphics.rectangle("fill", 1, 1, width, height)
 
 end --end draw
 
@@ -304,13 +317,14 @@ function love.mousepressed(x, y, button, istouch)
 					if tiles[_TEMP].unlocked then
 						menu="properties"
 					else
-						tiles[_TEMP].unlocked=true --TEMPORARY
-
-
-
-
-
-						
+						if player.yams>=finance.appraise() then
+							player.yams=player.yams-finance.appraise()
+							tiles[_TEMP].unlocked=true --TEMPORARY
+							player.unlocked[#player.unlocked+1]=_TEMP
+						else
+							fade=255
+						end
+						modifying=0
 					end
 				end
 			end

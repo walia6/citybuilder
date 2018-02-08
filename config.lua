@@ -18,7 +18,8 @@ config={
 		darkgray =   {048,048,048,255},
 		lime =       {000,255,000,255},
 		violet =     {238,130,238,255},
-		purple =     {128,000,128,255}
+		purple =     {128,000,128,255},
+		blood=       {138,034,034,255}
 	},
 	defaultClass = "terrain"
 }

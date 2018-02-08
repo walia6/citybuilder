@@ -13,7 +13,8 @@ classData={
 	farm = {
 		fill = config.colors.paleyellow,
 		text = config.colors.darkgray,
-		displayName = "Farm"
+		displayName = "Farm"--,
+		--cost = 
 	},
 	house = {
 		fill = config.colors.brick,
