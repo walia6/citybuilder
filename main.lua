@@ -2,6 +2,16 @@
 --[[
 
 ]]
+
+function tableContains(_CHECK,_TOINDEX)
+	for _i=1,#_TOINDEX do
+		if _CHECK==_TOINDEX[_i] then
+			return true
+		end
+	end
+end
+
+
 function table_print (tt, indent, done)
 	done = done or {}
 	indent = indent or 0
@@ -105,6 +115,13 @@ end
 
 function love.update(dt)
 	--called every frame
+
+
+
+	if menu=="exit" then love.window.close() end -- DEBUGGING
+
+
+
 	mouseSpeed=300
 	if frames%15==0 then
 		rate=1/dt
@@ -166,7 +183,8 @@ function love.draw()
 		  				},
 		  				state=1,
 		  				class=config.defaultClass,
-		  				id=num
+		  				id=num,
+		  				unlocked=tableContains(num,player.unlocked)
   		  			}
   	 	 		end
     			love.graphics.setColor(unpack(config.colors.white))
@@ -176,13 +194,21 @@ function love.draw()
     				_a3=math.random(1,160)
     				love.graphics.setColor((((_a1/10)*(_a1/10))-1),(((_a2/10)*(_a2/10))-1),(((_a3/10)*(_a3/10))-1),255)
     			end
-   		 		love.graphics.rectangle("line",posX ,posY ,config.plots.pxlength, config.plots.pxlength) -- OUTLINE
-  	 	 		love.graphics.setColor(unpack(classData[tiles[num].class].fill))
-  	 	 		love.graphics.rectangle("fill", posX+1, posY+1, config.plots.pxlength-2, config.plots.pxlength-2)
-    			love.graphics.setColor(unpack(classData[tiles[num].class].text))
-	    		love.graphics.print(num,posX+5,posY+5)
-	    		--love.graphics.print(tiles[num].class,posX+5,posY+15)
-	    		love.graphics.printf(classData[tiles[num].class].displayName,posX+1,posY-6+0.5*(config.plots.pxlength),config.plots.pxlength-2,"center")
+    			if tiles[num].unlocked then
+   		 			love.graphics.rectangle("line",posX ,posY ,config.plots.pxlength, config.plots.pxlength) -- OUTLINE
+  	 	 			love.graphics.setColor(unpack(classData[tiles[num].class].fill))
+  	 	 			love.graphics.rectangle("fill", posX+1, posY+1, config.plots.pxlength-2, config.plots.pxlength-2)
+    				love.graphics.setColor(unpack(classData[tiles[num].class].text))
+	    			love.graphics.print(num,posX+5,posY+5)
+	    			love.graphics.printf(classData[tiles[num].class].displayName,posX+1,posY-6+0.5*(config.plots.pxlength),config.plots.pxlength-2,"center")
+  		  		else
+  		  			love.graphics.rectangle("line",posX ,posY ,config.plots.pxlength, config.plots.pxlength) -- OUTLINE
+  	 	 			love.graphics.setColor(unpack(config.colors.black))
+  	 	 			love.graphics.rectangle("fill", posX+1, posY+1, config.plots.pxlength-2, config.plots.pxlength-2)
+    				love.graphics.setColor(unpack(config.colors.white))
+	    			love.graphics.print(num,posX+5,posY+5)
+	    			love.graphics.printf("SHADOW",posX+1,posY-6+0.5*(config.plots.pxlength),config.plots.pxlength-2,"center")
+  		  		end
   		  		--debugText(num,classData[tiles[num].class].displayName)
   		  		num=num+1
    		 		posX=posX+config.plots.pxlength
@@ -275,7 +301,17 @@ function love.mousepressed(x, y, button, istouch)
 							pointer=j
 						end
 					end
-					menu="properties"
+					if tiles[_TEMP].unlocked then
+						menu="properties"
+					else
+						tiles[_TEMP].unlocked=true --TEMPORARY
+
+
+
+
+
+						
+					end
 				end
 			end
 		end
