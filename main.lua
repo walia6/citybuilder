@@ -244,10 +244,10 @@ function love.draw()
 	if menu=="exit" then
 
 		--DRAW WINDOW START
-		love.graphics.setColor(unpack(config.colors.black))
-		love.graphics.rectangle("line", width/2-(exitWidth/2), height/2-(exitHeight/2), exitWidth, exitHeight)
+		love.graphics.setColor(unpack(config.colors.darkgray))
+		love.graphics.rectangle("fill", width/2-(exitWidth/2), height/2-(exitHeight/2), exitWidth, exitHeight)
 		for i=1,(exitThick-1) do
-			love.graphics.rectangle("line", width/2-(exitWidth/2)+i, height/2-(exitHeight/2)+i, exitWidth-2*i, exitHeight-2*i)
+			love.graphics.rectangle("fill", width/2-(exitWidth/2)+i, height/2-(exitHeight/2)+i, exitWidth-2*i, exitHeight-2*i)
 		end
 		love.graphics.setColor(unpack(config.colors.lightgray))
 		love.graphics.rectangle("fill", width/2-(exitWidth/2)+exitThick, height/2-(exitHeight/2)+exitThick, exitWidth-2*exitThick, exitHeight-2*exitThick)
@@ -262,10 +262,10 @@ function love.draw()
 
 	elseif menu=="properties" then
 
-		love.graphics.setColor(unpack(config.colors.black))
-		love.graphics.rectangle("line", width/2-(exitWidth/2), height/2-(exitHeight/2), exitWidth, exitHeight)
+		love.graphics.setColor(unpack(config.colors.darkgray))
+		love.graphics.rectangle("fill", width/2-(exitWidth/2), height/2-(exitHeight/2), exitWidth, exitHeight)
 		for i=1,(exitThick-1) do
-			love.graphics.rectangle("line", width/2-(exitWidth/2)+i, height/2-(exitHeight/2)+i, exitWidth-2*i, exitHeight-2*i)
+			love.graphics.rectangle("fill", width/2-(exitWidth/2)+i, height/2-(exitHeight/2)+i, exitWidth-2*i, exitHeight-2*i)
 		end
 		love.graphics.setColor(unpack(config.colors.lightgray))
 		love.graphics.rectangle("fill", width/2-(exitWidth/2)+exitThick, height/2-(exitHeight/2)+exitThick, exitWidth-2*exitThick, exitHeight-2*exitThick)
