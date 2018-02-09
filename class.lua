@@ -1,4 +1,5 @@
 classTypes={"terrain","farm","house","commons"}
+
 classData={
 	default = {
 		fill = config.colors.black,
@@ -8,22 +9,25 @@ classData={
 	terrain = {
 		fill = config.colors.green,
 		text = config.colors.white,
-		displayName = "Terrain"
+		displayName = "Terrain",
+		cost = -500
 	},
 	farm = {
 		fill = config.colors.paleyellow,
 		text = config.colors.darkgray,
-		displayName = "Farm"--,
-		--cost = 
+		displayName = "Farm",
+		cost = 750
 	},
 	house = {
 		fill = config.colors.brick,
 		text = config.colors.paleyellow,
-		displayName = "Home"
+		displayName = "Home",
+		cost = 1000
 	},
 	commons = {
 		fill = config.colors.purple,
 		text = config.colors.lightgray,
-		displayName = "Common Area"
+		displayName = "Common Area",
+		cost = 4500
 	}
 }
