@@ -220,6 +220,23 @@ function love.draw()
 			end
 			posY=posY+config.plots.pxlength
     	end
+
+    	
+
+    	priceLeftBound=9
+    	priceRightBound=249
+    	priceUpperBound=12
+    	priceLowerBound=332
+
+    	love.graphics.setColor(unpack(config.colors.midgray))
+    	love.graphics.rectangle("fill", priceLeftBound+4, priceUpperBound+4, priceRightBound-priceLeftBound, priceLowerBound-priceUpperBound)
+    	love.graphics.setColor(unpack(config.colors.lightgray))
+    	love.graphics.rectangle("fill", priceLeftBound, priceUpperBound, priceRightBound-priceLeftBound, priceLowerBound-priceUpperBound)
+    	love.graphics.setColor(unpack(config.colors.black))
+    	love.graphics.printf("Pricing Info", priceLeftBound/2, priceUpperBound+15, priceRightBound/2, "center", 0,2,2.25)
+    	love.graphics.printf("_", priceLeftBound/25+25, priceUpperBound+14, priceRightBound/25, "center", 0,25,2)
+
+
 	    toDraw=false
 	end
 
