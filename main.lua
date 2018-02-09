@@ -332,11 +332,6 @@ function love.mousepressed(x, y, button, istouch)
  	end
 end
 
-
-function checkUpdates(tiles)
-
-end
-
 function love.keyreleased(key)
 	lastKey=key
 	if menu=="exit" then
