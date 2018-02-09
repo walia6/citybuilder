@@ -197,10 +197,7 @@ function love.draw()
   	 	 		end
     			love.graphics.setColor(unpack(config.colors.white))
     			if num==modifying then
-    				_a1=math.random(1,160)
-    				_a2=math.random(1,160)
-    				_a3=math.random(1,160)
-    				love.graphics.setColor((((_a1/10)*(_a1/10))-1),(((_a2/10)*(_a2/10))-1),(((_a3/10)*(_a3/10))-1),255)
+    				love.graphics.setColor(unpack(config.colors.gold))
     			end
     			if tiles[num].unlocked then
    		 			love.graphics.rectangle("line",posX ,posY ,config.plots.pxlength, config.plots.pxlength) -- OUTLINE
