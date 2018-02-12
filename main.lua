@@ -57,6 +57,7 @@ end
 
 function love.load()
 	fade=0
+	output="Begin Output Console:\n"
 	require("config")
 	require("class")
 	require("events")
@@ -319,6 +320,7 @@ function love.draw()
 	debugText("YAMS",player.yams)
 	debugText("PEOPLE",player.people)
 	debugText("MULT",player.multiplier)
+	debugText("output",output)
     --*******DEBUG********--
 
 
@@ -326,6 +328,40 @@ function love.draw()
     love.graphics.rectangle("fill", 1, 1, width, height)
 
 end --end draw
+
+
+function authUnlock(targ2)
+
+	ovrAuth=false
+
+	if (targ2-1)>(0) then
+		if tiles[targ2-1].unlocked then
+			ovrAuth=true
+		end
+	end
+
+	if (targ2+1)<=(config.plots.width*config.plots.height) then
+		if tiles[targ2+1].unlocked then
+			ovrAuth=true
+		end
+	end
+
+
+	if (targ2-config.plots.width)>(0) then
+		if tiles[targ2-config.plots.width].unlocked then
+			ovrAuth=true
+		end
+	end
+
+	if (targ2+config.plots.width)<=(config.plots.width*config.plots.height) then
+		if tiles[targ2+config.plots.width].unlocked then
+			ovrAuth=true
+		end
+	end
+
+	return ovrAuth
+end
+
 
 function love.mousepressed(x, y, button, istouch)
 	lastClick.x,lastClick.y=x,y
@@ -344,9 +380,14 @@ function love.mousepressed(x, y, button, istouch)
 						menu="properties"
 					else
 						if player.yams>=finance.appraise() then
-							player.yams=player.yams-finance.appraise()
-							tiles[_TEMP].unlocked=true --TEMPORARY
-							player.unlocked[#player.unlocked+1]=_TEMP
+							if authUnlock(_TEMP) then
+								player.yams=player.yams-finance.appraise()
+								tiles[_TEMP].unlocked=true --TEMPORARY
+								player.unlocked[#player.unlocked+1]=_TEMP
+								output=output.."called appraise\n"
+							else
+								fade=255
+							end
 						else
 							fade=255
 						end
