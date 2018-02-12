@@ -1,5 +1,4 @@
 classTypes={"terrain","farm","house","commons"}
---willardxt
 classData={
 	default = {
 		fill = config.colors.black,

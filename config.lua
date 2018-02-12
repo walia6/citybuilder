@@ -1,3 +1,4 @@
+--config
 config={
 	plots = {
 		width = 9,

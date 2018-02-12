@@ -1,3 +1,4 @@
+--player.lua
 player={
 	yams = 3000,
 	turn = 1,

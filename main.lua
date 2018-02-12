@@ -1,7 +1,4 @@
---tocite
---[[
 
-]]
 
 function tableContains(_CHECK,_TOINDEX)
 	for _i=1,#_TOINDEX do
