@@ -228,6 +228,16 @@ function love.draw()
     	priceUpperBound=12
     	priceLowerBound=332
 
+    	priceTextLeft=""
+    	priceTextRight=""
+    	for k=1,#classTypes do
+    		priceTextLeft=priceTextLeft..(classData[classTypes[k]].displayName)..":\n\n"
+    		priceTextRight=priceTextRight..(classData[classTypes[k]].cost).."\n\n"
+    	end
+
+
+    	
+
     	love.graphics.setColor(unpack(config.colors.midgray))
     	love.graphics.rectangle("fill", priceLeftBound+4, priceUpperBound+4, priceRightBound-priceLeftBound, priceLowerBound-priceUpperBound)
     	love.graphics.setColor(unpack(config.colors.lightgray))
@@ -235,6 +245,9 @@ function love.draw()
     	love.graphics.setColor(unpack(config.colors.black))
     	love.graphics.printf("Pricing Info", priceLeftBound/2, priceUpperBound+15, priceRightBound/2, "center", 0,2,2.25)
     	love.graphics.printf("_", priceLeftBound/25+25, priceUpperBound+14, priceRightBound/25, "center", 0,25,2)
+    	love.graphics.printf(priceTextLeft, priceLeftBound+10, priceUpperBound+60, priceRightBound-priceLeftBound-10, "left")
+    	love.graphics.printf(priceTextRight, priceLeftBound+10, priceUpperBound+60, priceRightBound-priceLeftBound-10, "right")
+
 
 
 	    toDraw=false
