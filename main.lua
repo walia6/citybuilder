@@ -56,7 +56,9 @@ function pack(...)
 end
 
 function love.load()
+	toDraw=true
 	fade=0
+	tot=0
 	output="Begin Output Console:\n"
 	require("config")
 	require("class")
@@ -114,8 +116,21 @@ end
 
 function love.update(dt)
 	--called every frame
+	tot=tot+dt
+	if not toDraw then
+		if math.floor(tot*config.turnLength)>player.turn then
+			for h=1,config.plots.width*config.plots.height do
+				if classData[tiles[h].class].onTick then
+					classData[tiles[h].class].onTick()
+				end
+			end
+			player.turn=player.turn+1
+		end
+	end
+
+
 	if fade>0 then
-		fade=fade-4 --FADE RATE
+		fade=fade-4*(dt/(1/60)) --FADE RATE
 	end
 
 	if fade<0 then
@@ -123,8 +138,6 @@ function love.update(dt)
 	end
 
 
-
-	if menu=="exit" then love.window.close() end -- DEBUGGING
 
 
 
@@ -153,6 +166,15 @@ function love.update(dt)
 end
 
 function debugText(denom,dTXT)
+	if type(dTXT)==type(false) then
+		
+		if dTXT then
+			dTXT="true"
+		else
+			dTXT="false"
+		end
+	end
+
 	if not(dTXT==nil) then
 		dTXT=denom..": "..dTXT
 		denom=nil
@@ -317,9 +339,11 @@ function love.draw()
 	debugText("CURSORPOS","("..(love.mouse.getX())..","..(love.mouse.getY())..")")
 	debugText("MOUSESPEED",mouseSpeed)
 	debugText(({love.system.getPowerInfo()})[1],({love.system.getPowerInfo()})[3])
-	debugText("YAMS",player.yams)
+	debugText("YAMS",math.floor(player.yams))
 	debugText("PEOPLE",player.people)
 	debugText("MULT",player.multiplier)
+	debugText("toDraw",toDraw)
+	debugText("TURN",player.turn)
 	debugText("output",output)
     --*******DEBUG********--
 

@@ -1,5 +1,6 @@
 --config
 config={
+	turnLength=10,
 	plots = {
 		width = 9,
 		height = 9,

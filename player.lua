@@ -1,6 +1,6 @@
 --player.lua
 player={
-	yams = 3000,
+	yams = 3000, --default 3000
 	people = 5,
 	multiplier = 1,
 	turn = 1,
