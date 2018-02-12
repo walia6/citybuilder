@@ -29,6 +29,8 @@ function finance.develop(developID,target)
 			player.yams=player.yams-classData[target].cost
 			tiles[developID].class=target
 			love.keyreleased("escape")
+		else
+			fade=255
 		end
 	end
 end

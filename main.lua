@@ -243,7 +243,7 @@ function love.draw()
     	love.graphics.printf("Pricing Info", priceLeftBound/2, priceUpperBound+15, priceRightBound/2, "center", 0,2,2.25)
     	love.graphics.printf("_", priceLeftBound/25+25, priceUpperBound+14, priceRightBound/25, "center", 0,25,2)
     	love.graphics.printf(priceTextLeft, priceLeftBound+10, priceUpperBound+60, priceRightBound-priceLeftBound-10, "left")
-    	love.graphics.printf(priceTextRight, priceLeftBound+10, priceUpperBound+60, priceRightBound-priceLeftBound-10, "right")
+    	love.graphics.printf(priceTextRight, priceLeftBound+10, priceUpperBound+60, priceRightBound-priceLeftBound-20, "right")
 
 
 
@@ -317,6 +317,8 @@ function love.draw()
 	debugText("MOUSESPEED",mouseSpeed)
 	debugText(({love.system.getPowerInfo()})[1],({love.system.getPowerInfo()})[3])
 	debugText("YAMS",player.yams)
+	debugText("PEOPLE",player.people)
+	debugText("MULT",player.multiplier)
     --*******DEBUG********--
 
 
