@@ -5,7 +5,7 @@ finance={}
 
 
 function finance.appraise()
-	return math.floor(math.floor(math.pow(10*(#player.unlocked)/(#tiles),1.5)*1000)/50)*50
+	return math.floor(math.floor(math.pow(10*(#player.unlocked)/(#tiles),2.3)*1000)/50)*50
 end
 
 
