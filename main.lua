@@ -56,6 +56,8 @@ function pack(...)
 end
 
 function love.load()
+	lastYams=0.0000001
+	rates={0}
 	toDraw=true
 	fade=0
 	tot=0
@@ -115,6 +117,15 @@ function isBetween(numb, boundDown, boundUp)
 end
 
 function love.update(dt)
+
+	yamrate=dt*(player.yams-lastYams)
+	lastYams=player.yams
+	if not toDraw then
+
+		if math.max(yamrate,rates[#rates])==yamrate then
+			rates[#rates+1]=yamrate
+		end
+	end
 	--called every frame
 	tot=tot+dt
 	if not toDraw then
@@ -342,6 +353,7 @@ function love.draw()
 	debugText("YAMS",math.floor(player.yams))
 	debugText("PEOPLE",player.people)
 	debugText("MULT",player.multiplier)
+	debugText("YAMRATE",math.max(unpack(rates)))
 	debugText("toDraw",toDraw)
 	debugText("TURN",player.turn)
 	debugText("output",output)
