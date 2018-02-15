@@ -56,6 +56,9 @@ function pack(...)
 end
 
 function love.load()
+	eventFreq=750
+	curEvent=1
+
 	lastYams=0.0000001
 	rates={0}
 	toDraw=true
@@ -118,24 +121,31 @@ end
 
 function love.update(dt)
 
-	yamrate=dt*(player.yams-lastYams)
-	lastYams=player.yams
-	if not toDraw then
 
-		if math.max(yamrate,rates[#rates])~=rates[#rates] then
-			rates[#rates+1]=yamrate
+	if menu=="none" then
+		yamrate=dt*(player.yams-lastYams)
+		lastYams=player.yams
+		if not toDraw then
+
+			if math.max(yamrate,rates[#rates])~=rates[#rates] then
+				rates[#rates+1]=yamrate
+			end
 		end
-	end
-	--called every frame
-	tot=tot+dt
-	if not toDraw then
-		if math.floor(tot*config.turnLength)>player.turn then
-			for h=1,config.plots.width*config.plots.height do
-				if classData[tiles[h].class].onTick then
-					classData[tiles[h].class].onTick()
+		--called every frame
+		tot=tot+dt
+		if not toDraw then
+			if math.floor(tot*config.turnLength)>player.turn then
+				for h=1,config.plots.width*config.plots.height do
+					if classData[tiles[h].class].onTick then
+						classData[tiles[h].class].onTick()
+					end
+				end
+				player.turn=player.turn+1
+				if player.turn%eventFreq==0 and events[curEvent] then
+					--EVENTS CODE
+					menu="event"
 				end
 			end
-			player.turn=player.turn+1
 		end
 	end
 
@@ -326,7 +336,35 @@ function love.draw()
 		end
 		--love.graphics.printf(, x, bounds., limit, align, r, sx, sy, ox, oy, kx, ky)
 
-		
+	elseif menu=="event" then
+
+		eventThick=3
+		eventHeight=138*2
+		eventWidth=246*2
+		textHeight=12
+
+		love.graphics.setColor(unpack(config.colors.darkgray))
+		love.graphics.rectangle("fill", width/2-(eventWidth/2), height/2-(eventHeight/2), eventWidth, eventHeight)
+		for i=1,(eventThick-1) do
+			love.graphics.rectangle("fill", width/2-(eventWidth/2)+i, height/2-(eventHeight/2)+i, eventWidth-2*i, eventHeight-2*i)
+		end
+		love.graphics.setColor(unpack(config.colors.lightgray))
+		love.graphics.rectangle("fill", width/2-(eventWidth/2)+eventThick, height/2-(eventHeight/2)+eventThick, eventWidth-2*eventThick, eventHeight-2*eventThick)
+		love.graphics.setColor(config.colors.black)
+		--DRAW WINDOW END
+		tmpSCALE=1.5
+		love.graphics.printf(events[curEvent].title, math.floor((width/2-eventWidth/2+eventThick)+0.5), math.floor((height/2-eventHeight/2+eventThick)+0.5), (eventWidth-2*eventThick)/tmpSCALE, "center", 0, tmpSCALE, tmpSCALE) --TITLE
+
+		tmpSCALE=1
+		love.graphics.printf(events[curEvent].body, math.floor((width/2-eventWidth/2+eventThick)+0.5)+5, math.floor((height/2-eventHeight/2+eventThick)+0.5)+30, (eventWidth-2*eventThick-10)/tmpSCALE, "left", 0, tmpSCALE, tmpSCALE)
+
+		tmpSCALE=1.5
+		love.graphics.printf("Press Any Key to Acknowledge...", math.floor((width/2-eventWidth/2+eventThick)+0.5), math.floor((height/2-eventHeight/2+eventThick)+eventHeight-45+0.5), (eventWidth-2*eventThick)/tmpSCALE, "center", 0, tmpSCALE, tmpSCALE) --TITLE
+
+		--love.graphics.printf(events[curEvent].title, math.floor(width/2-(eventWidth/2)+eventThick+0.5), math.floor(height/2-0.5*1/2*eventHeight+0.5-eventHeight/2), 0.5*(eventWidth-2*eventThick), "center", 0, 2, 2)
+		--love.graphics.printf("Y/N"  , math.floor(width/2-(eventWidth/2)+eventThick+0.5), math.floor(height/2-0.5*1/2*eventHeight+textHeight*3.5+0.5), (eventWidth-2*eventThick)*0.5, "center", 0, 2, 2)
+
+
 	end
 	--[[ debugging
 	love.graphics.setColor(config.colors.white)
@@ -354,7 +392,10 @@ function love.draw()
 	debugText("PEOPLE",player.people)
 	debugText("MULT",player.multiplier)
 	debugText("RATELENGTH",#rates)
-	debugText("YAMRATE",math.max(unpack(rates)))
+	if classAmounts.farm then
+		debugText("OUTPUTPERFARM",math.floor(1000*player.multiplier)/1000*(math.min(player.people,4*classAmounts.farm)/4/classAmounts.farm))
+		debugText("TOTALOUTPUT",math.floor(1000*player.multiplier)/1000*(math.min(player.people,4*classAmounts.farm)/4/classAmounts.farm)*classAmounts.farm)
+	end
 	debugText("toDraw",toDraw)
 	debugText("TURN",player.turn)
 	debugText("output",output)
@@ -438,6 +479,11 @@ end
 
 function love.keyreleased(key)
 	lastKey=key
+
+	if key=="l" then --DEBUG
+		tot=tot+5
+	end
+
 	if menu=="exit" then
 		if key=="y" then
 			love.quit()
@@ -469,6 +515,10 @@ function love.keyreleased(key)
 				pointer=tonumber(key)
 			end
 		end
+	elseif menu=="event" then
+		menu="none"
+		events[curEvent].onInstance()
+		curEvent=curEvent+1
 	elseif menu=="none" then
 	    if key=="escape" then
 	    	menu="exit"
