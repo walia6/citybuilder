@@ -5,13 +5,13 @@ finance={}
 
 
 function finance.appraise()
-	return math.floor(math.floor(math.pow(10*(#player.unlocked)/(#tiles),2.3)*1000)/50)*50
+	return math.floor(math.floor(math.pow(10*(#player.unlocked)/(#tiles),1.6)*1000)/50)*50
 end
 
 
 function finance.develop(developID,target)
 	if tiles[developID].class == target then
-		fade=255
+		love.keyreleased("escape")
 	elseif target=="terrain" then
 		if classData[tiles[developID].class].onDemo then
 			classData[tiles[developID].class].onDemo()

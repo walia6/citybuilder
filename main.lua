@@ -138,7 +138,7 @@ function love.update(dt)
 			if math.floor(tot*config.turnLength)>player.turn then
 				for h=1,config.plots.width*config.plots.height do
 					if classData[tiles[h].class].onTick then
-						classData[tiles[h].class].onTick()
+						classData[tiles[h].class].onTick(h)
 					end
 				end
 				player.turn=player.turn+1
@@ -489,8 +489,13 @@ end
 function love.keyreleased(key)
 	lastKey=key
 
+
 	if key=="l" then --DEBUG
 		tot=tot+5
+	elseif key=="-" then
+	    player.yams=player.yams-1000
+	elseif key=="=" then
+	    player.yams=player.yams+1000
 	end
 
 	if menu=="exit" then

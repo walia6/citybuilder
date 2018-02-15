@@ -13,8 +13,60 @@ classData={
 		displayName = "Yam Farm",
 		cost = 750,
 		onTick = (
-			function()
-				player.yams=player.yams+   math.floor(1000*player.multiplier)/1000*(math.min(player.people,4*classAmounts.farm)/4/classAmounts.farm)
+			function(myID)
+				farmMult = 1.5
+				adjMult=1
+
+				if (myID-1)>(0) then
+					if tiles[myID-1].class=="commons" then
+						adjMult=adjMult*farmMult
+					end
+				end
+
+				if (myID+1)<=(config.plots.width*config.plots.height) then
+					if tiles[myID+1].class=="commons" then
+						adjMult=adjMult*farmMult
+					end
+				end
+
+
+				if (myID-config.plots.width)>(0) then
+					if tiles[myID-config.plots.width].class=="commons" then
+						adjMult=adjMult*farmMult
+					end
+				end
+
+				if (myID-config.plots.width-1)>(0) then
+					if tiles[myID-config.plots.width-1].class=="commons" then
+						adjMult=adjMult*farmMult
+					end
+				end
+
+				if (myID-config.plots.width+1)>(0) then
+					if tiles[myID-config.plots.width+1].class=="commons" then
+						adjMult=adjMult*farmMult
+					end
+				end
+
+				if (myID+config.plots.width)<=(config.plots.width*config.plots.height) then
+					if tiles[myID+config.plots.width].class=="commons" then
+						adjMult=adjMult*farmMult
+					end
+				end
+
+				if (myID+config.plots.width-1)<=(config.plots.width*config.plots.height) then
+					if tiles[myID+config.plots.width-1].class=="commons" then
+						adjMult=adjMult*farmMult
+					end
+				end
+
+				if (myID+config.plots.width+1)<=(config.plots.width*config.plots.height) then
+					if tiles[myID+config.plots.width+1].class=="commons" then
+						adjMult=adjMult*farmMult
+					end
+				end
+
+				player.yams=player.yams+adjMult*0.25*math.floor(1000*player.multiplier)/1000*(math.min(player.people,4*classAmounts.farm)/4/classAmounts.farm)
 			end
 		),
 		onBuilt = (
@@ -66,12 +118,12 @@ classData={
 				else
 					classAmounts.commons=classAmounts.commons+1
 				end
-				player.multiplier=player.multiplier*1.5
+				--player.multiplier=player.multiplier*1.5
 			end
 		),
 		onDemo = (
 			function()
-				player.multiplier=player.multiplier/1.5
+				--player.multiplier=player.multiplier/1.5
 				classAmounts.commons=classAmounts.commons-1
 			end
 		)
