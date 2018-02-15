@@ -59,6 +59,7 @@ function love.load()
 	eventFreq=750
 	curEvent=1
 
+	timedFunctions={}
 	lastYams=0.0000001
 	rates={0}
 	toDraw=true
@@ -141,6 +142,14 @@ function love.update(dt)
 					end
 				end
 				player.turn=player.turn+1
+				
+				for b=1,#timedFunctions do
+					if timedFunctions[b].time == player.turn then
+						timedFunctions[b].toCall()
+						output=output.."Called "..(timedFunctions[b].caller).."'s timed function.\n"
+					end
+				end
+
 				if player.turn%eventFreq==0 and events[curEvent] then
 					--EVENTS CODE
 					menu="event"
