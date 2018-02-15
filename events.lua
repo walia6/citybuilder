@@ -55,16 +55,26 @@ events={
 			function()
 				player.multiplier=player.multiplier*2/3
 				player.people=player.people-1
-
-				timedFunctions[#timedFunctions+1] = {
-					time = player.turn+1400,
-					caller = 4,
-					toCall = (
-						function()
-							--player.multiplier=player.multiplier*3/2
-						end
-					)
-				}
+			end
+		)
+	},
+	{
+		title = "Return of Okonkwo",
+		body = "    Upon the return of Okonkwo, we learn the Umofia has been 'invaded' by Christianity, and white men. The white men attempt to set up a government and a court of law. The population of Umofia greatly increases, but people are forced to give up large portions of their yams to the government (177).\n\nEffects:\n    •Population tripled\n    •Yam output reduced by 66%\n    •Yam storages quadrupled",
+		onInstance = (
+			function()
+				player.multiplier=player.multiplier*1/3
+				player.people=player.people*3
+				player.yams=player.yams*4
+			end
+		)
+	},
+	{
+		title = "Death of Okonkwo",
+		body = "    Okonkwo realizes that he is no longer relevant to Umofia. Okonkwo hangs himself, marking the end of Umofia as he knew it.",
+		onInstance = (
+			function()
+				gamestate="end"
 			end
 		)
 	}

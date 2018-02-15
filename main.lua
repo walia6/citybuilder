@@ -123,7 +123,7 @@ end
 function love.update(dt)
 
 
-	if menu=="none" then
+	if menu=="none" and gamestate=="game" then
 		yamrate=dt*(player.yams-lastYams)
 		lastYams=player.yams
 		if not toDraw then
