@@ -31,7 +31,7 @@ events={
 	},
 	{
 		title = "Death of Ikemefuna",
-		body = "    In Umofia, the Oracle declares that Ikemefuna must be sacrificed. While not forced, Okonkwo chooses to participate in the killing. In a final moment of hesitation, Okonkwo kills Ikemefuna. This puts Okonkwo into a depression and effects his effincey in yam cultivation (61).\n\nEffects:\n    •Effincey reduced by a third for 500 turns.",
+		body = "    In Umofia, the Oracle declares that Ikemefuna must be sacrificed. While not forced to, Okonkwo chooses to participate in the killing. In a final moment of hesitation, Okonkwo kills Ikemefuna. This puts Okonkwo into a depression and affects his effincey in yam cultivation (61).\n\nEffects:\n    •Effincey reduced by a third for 500 turns.",
 		onInstance = (
 			function()
 				player.multiplier=player.multiplier*2/3
@@ -48,5 +48,24 @@ events={
 			end
 		)
 	},
+	{
+		title = "Exilation of Okonkwo",
+		body = "    During the funeral of Ezedu, the oldest person in Umofia, the people are very sorrowful. In a final act of honor, drums are sounded and guns are fired into the air. While honoring their father, Ezedu's 16 year old is found dead with a bullet wound. It is found out that the gun responsible for the death is Okonkwo's. For this, Okonkwo is exiled for 7 years to Mbanta (124).\n\nEffects:\n    •Population reduced by 1\n    •Multiplier reduced by 50% indefinetly",
+		onInstance = (
+			function()
+				player.multiplier=player.multiplier*2/3
+				player.people=player.people-1
 
+				timedFunctions[#timedFunctions+1] = {
+					time = player.turn+1400,
+					caller = 4,
+					toCall = (
+						function()
+							--player.multiplier=player.multiplier*3/2
+						end
+					)
+				}
+			end
+		)
+	}
 }
