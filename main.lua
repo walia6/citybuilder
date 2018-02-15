@@ -299,7 +299,7 @@ function love.draw()
     	love.graphics.setColor(unpack(config.colors.lightgray))
     	love.graphics.rectangle("fill", priceLeftBound, priceUpperBound, priceRightBound-priceLeftBound, priceLowerBound-priceUpperBound)
     	love.graphics.setColor(unpack(config.colors.black))
-    	love.graphics.printf("General Information", priceLeftBound/2, priceUpperBound+15, priceRightBound/2, "center", 0,2,2.25)
+    	love.graphics.printf("General Info", priceLeftBound/2, priceUpperBound+15, priceRightBound/2, "center", 0,2,2.25)
     	love.graphics.printf(priceTextLeft, priceLeftBound+10, priceUpperBound+60, priceRightBound-priceLeftBound-10, "left")
     	love.graphics.printf(priceTextRight, priceLeftBound+10, priceUpperBound+60, priceRightBound-priceLeftBound-20, "right")
 
