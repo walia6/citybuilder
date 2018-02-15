@@ -56,9 +56,10 @@ function pack(...)
 end
 
 function love.load()
+	startEnd=1
 	eventFreq=750
 	curEvent=1
-
+	isDebug=false  --MASTER DEBUG
 	timedFunctions={}
 	lastYams=0.0000001
 	rates={0}
@@ -278,10 +279,15 @@ function love.draw()
     	priceUpperBound=12
     	priceLowerBound=332
 
-    	priceTextLeft=""
-    	priceTextRight=""
+    	instLeftBound=9
+    	instRightBound=249
+    	instUpperBound=350
+    	instLowerBound=850
+
+    	priceTextLeft="Yams:\n\nTurn:\n\nPopulation:\n\nMultiplier:\n\n"
+    	priceTextRight=(math.floor(player.yams+0.5)).."\n\n"..(player.turn).."\n\n"..(player.people).."\n\n"..(math.floor(player.multiplier*1000)/1000).."\n\n"
     	for k=1,#classTypes do
-    		priceTextLeft=priceTextLeft..(classData[classTypes[k]].displayName)..":\n\n"
+    		priceTextLeft=priceTextLeft..(classData[classTypes[k]].displayName).." price:\n\n"
     		priceTextRight=priceTextRight..(classData[classTypes[k]].cost).."\n\n"
     	end
 
@@ -293,10 +299,21 @@ function love.draw()
     	love.graphics.setColor(unpack(config.colors.lightgray))
     	love.graphics.rectangle("fill", priceLeftBound, priceUpperBound, priceRightBound-priceLeftBound, priceLowerBound-priceUpperBound)
     	love.graphics.setColor(unpack(config.colors.black))
-    	love.graphics.printf("Pricing Info", priceLeftBound/2, priceUpperBound+15, priceRightBound/2, "center", 0,2,2.25)
-    	love.graphics.printf("_", priceLeftBound/25+25, priceUpperBound+14, priceRightBound/25, "center", 0,25,2)
+    	love.graphics.printf("General Information", priceLeftBound/2, priceUpperBound+15, priceRightBound/2, "center", 0,2,2.25)
     	love.graphics.printf(priceTextLeft, priceLeftBound+10, priceUpperBound+60, priceRightBound-priceLeftBound-10, "left")
     	love.graphics.printf(priceTextRight, priceLeftBound+10, priceUpperBound+60, priceRightBound-priceLeftBound-20, "right")
+
+
+    	--INSTRUCTIONS
+		instText = "    Your goal is to build up Umofia and to experience Okonkwo's story.\n\n    The Controls are very simple. Use the mouse to perform an action on a tile. If the tile is black with a number on it, you will attempt to unlock the land for the price listed on the tile. Unlocking a tile will set it to Undeveloped. Clicking on any unlocked tile will attempt to change the structure on the tile. This menu can be navigated with the arrow keys and enter. If you have sufficent funds, the tile will convert to the type selected upon pressing enter. A farm produces yams. Each farm requires 4 people to run at maximum efficiency. If there are less than 4 people per farm, the farm will produce yams at a relative rate. An Obi adds 4 people to the total population of Umofia. An Ilo increases the production rate of all farms in the 8 tiles surrounding it by 50%. The goal is to achieve as many yams as humanly possible. Exiting may be initiated by pressing the escape key."
+
+    	love.graphics.setColor(unpack(config.colors.midgray))
+    	love.graphics.rectangle("fill", instLeftBound+4, instUpperBound+4, instRightBound-instLeftBound, instLowerBound-instUpperBound)
+    	love.graphics.setColor(unpack(config.colors.lightgray))
+    	love.graphics.rectangle("fill", instLeftBound, instUpperBound, instRightBound-instLeftBound, instLowerBound-instUpperBound)
+    	love.graphics.setColor(unpack(config.colors.black))
+    	love.graphics.printf("Instructions", instLeftBound/2, instUpperBound+15, instRightBound/2, "center", 0,2,2.25)
+    	love.graphics.printf(instText, instLeftBound+10, instUpperBound+60, instRightBound-instLeftBound-10, "left")
 
 
 
@@ -383,36 +400,50 @@ function love.draw()
 	love.graphics.rectangle("fill", 500, 500, 10, 10)
 	]]
 	--*******DEBUG********--
+
 	love.graphics.setColor(unpack(config.colors.white))
-	debugText("FPS",string.sub(rate,1,2))--fps
-	debugText("MENU",menu)
-	debugText("MOD",modifying)
-	debugText("RESOLUTION",width.."x"..height)
-	debugText("FRAME",frames)
-	debugText("TIMEINIT",string.sub(startTime,1,8))
-	debugText("RUNTIME",string.sub(love.timer.getTime()-startTime,1,5))
-	debugText("LASTKEY",lastKey)
-	debugText("POINTER",pointer)
-	debugText("LASTCLICK","("..(lastClick.x)..","..(lastClick.y)..")")
-	debugText("CURSORPOS","("..(love.mouse.getX())..","..(love.mouse.getY())..")")
-	debugText("MOUSESPEED",mouseSpeed)
-	debugText(({love.system.getPowerInfo()})[1],({love.system.getPowerInfo()})[3])
-	debugText("YAMS",math.floor(player.yams))
-	debugText("PEOPLE",player.people)
-	debugText("MULT",player.multiplier)
-	debugText("RATELENGTH",#rates)
-	if classAmounts.farm then
-		debugText("OUTPUTPERFARM",math.floor(1000*player.multiplier)/1000*(math.min(player.people,4*classAmounts.farm)/4/classAmounts.farm))
-		debugText("TOTALOUTPUT",math.floor(1000*player.multiplier)/1000*(math.min(player.people,4*classAmounts.farm)/4/classAmounts.farm)*classAmounts.farm)
+	if isDebug then
+		debugText("FPS",string.sub(rate,1,2))--fps
+		debugText("MENU",menu)
+		debugText("MOD",modifying)
+		debugText("RESOLUTION",width.."x"..height)
+		debugText("FRAME",frames)
+		debugText("TIMEINIT",string.sub(startTime,1,8))
+		debugText("RUNTIME",string.sub(love.timer.getTime()-startTime,1,5))
+		debugText("LASTKEY",lastKey)
+		debugText("POINTER",pointer)
+		debugText("LASTCLICK","("..(lastClick.x)..","..(lastClick.y)..")")
+		debugText("CURSORPOS","("..(love.mouse.getX())..","..(love.mouse.getY())..")")
+		debugText("MOUSESPEED",mouseSpeed)
+		debugText(({love.system.getPowerInfo()})[1],({love.system.getPowerInfo()})[3])
+		debugText("YAMS",math.floor(player.yams))
+		debugText("PEOPLE",player.people)
+		debugText("MULT",player.multiplier)
+		debugText("RATELENGTH",#rates)
+		if classAmounts.farm then
+			debugText("OUTPUTPERFARM",math.floor(1000*player.multiplier)/1000*(math.min(player.people,4*classAmounts.farm)/4/classAmounts.farm))
+			debugText("TOTALOUTPUT",math.floor(1000*player.multiplier)/1000*(math.min(player.people,4*classAmounts.farm)/4/classAmounts.farm)*classAmounts.farm)
+		end
+		debugText("toDraw",toDraw)
+		debugText("TURN",player.turn)
+		debugText("output",output)
+	    --*******DEBUG********--
 	end
-	debugText("toDraw",toDraw)
-	debugText("TURN",player.turn)
-	debugText("output",output)
-    --*******DEBUG********--
 
 
     love.graphics.setColor(config.colors.blood[1],config.colors.blood[2],config.colors.blood[3],fade)
     love.graphics.rectangle("fill", 1, 1, width, height)
+
+
+    if gamestate=="end" then
+    	if (love.timer.getTime() - startEnd)>10 then
+    		love.window.close()
+    	end
+    	love.graphics.setColor(unpack(config.colors.black))
+    	love.graphics.rectangle("fill", 1, 1, width, height)
+    	love.graphics.setColor(unpack(config.colors.white))
+    	love.graphics.printf("GAME OVER", 1, math.floor(height/2+0.5), math.floor(width/5+0.5), "center", 0, 5, 5)
+	end
 
 end --end draw
 
@@ -489,15 +520,15 @@ end
 function love.keyreleased(key)
 	lastKey=key
 
-
-	if key=="l" then --DEBUG
-		tot=tot+5
-	elseif key=="-" then
-	    player.yams=player.yams-1000
-	elseif key=="=" then
-	    player.yams=player.yams+1000
+	if isDebug then
+		if key=="l" then --DEBUG
+			tot=tot+5
+		elseif key=="-" then
+		    player.yams=player.yams-1000
+		elseif key=="=" then
+		    player.yams=player.yams+1000
+		end
 	end
-
 	if menu=="exit" then
 		if key=="y" then
 			love.quit()
