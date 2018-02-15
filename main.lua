@@ -122,7 +122,7 @@ function love.update(dt)
 	lastYams=player.yams
 	if not toDraw then
 
-		if math.max(yamrate,rates[#rates])==yamrate then
+		if math.max(yamrate,rates[#rates])~=rates[#rates] then
 			rates[#rates+1]=yamrate
 		end
 	end
@@ -353,6 +353,7 @@ function love.draw()
 	debugText("YAMS",math.floor(player.yams))
 	debugText("PEOPLE",player.people)
 	debugText("MULT",player.multiplier)
+	debugText("RATELENGTH",#rates)
 	debugText("YAMRATE",math.max(unpack(rates)))
 	debugText("toDraw",toDraw)
 	debugText("TURN",player.turn)
