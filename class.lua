@@ -66,7 +66,7 @@ classData={
 					end
 				end
 
-				player.yams=player.yams+adjMult*0.25*math.floor(1000*player.multiplier)/1000*(math.min(player.people,4*classAmounts.farm)/4/classAmounts.farm)
+				player.yams=player.yams+adjMult*0.5*math.floor(1000*player.multiplier)/1000*(math.min(player.people,4*classAmounts.farm)/4/classAmounts.farm)
 			end
 		),
 		onBuilt = (

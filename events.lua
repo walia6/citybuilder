@@ -28,5 +28,25 @@ events={
 				}
 			end
 		)
-	}
+	},
+	{
+		title = "Death of Ikemefuna",
+		body = "    In Umofia, the Oracle declares that Ikemefuna must be sacrificed. While not forced, Okonkwo chooses to participate in the killing. In a final moment of hesitation, Okonkwo kills Ikemefuna. This puts Okonkwo into a depression and effects his effincey in yam cultivation (61).\n\nEffects:\n    •Effincey reduced by a third for 500 turns.",
+		onInstance = (
+			function()
+				player.multiplier=player.multiplier*2/3
+
+				timedFunctions[#timedFunctions+1] = {
+					time = player.turn+500,
+					caller = 3,
+					toCall = (
+						function()
+							player.multiplier=player.multiplier*3/2
+						end
+					)
+				}
+			end
+		)
+	},
+
 }
